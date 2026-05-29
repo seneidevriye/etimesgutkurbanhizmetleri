@@ -176,6 +176,7 @@
       <div class="check">✓</div>
       <h2>Teşekkür ederiz</h2>
       <p>Vakit ayırarak anketimizi doldurduğunuz için teşekkür ederiz.</p>
+      <button type="button" class="submit" id="againBtn" style="max-width:280px;margin:24px auto 0">Yeni Anket Doldur</button>
     </div>
   </div>
 
@@ -223,14 +224,12 @@
   const form = document.getElementById('surveyForm');
   const btn = document.getElementById('submitBtn');
 
-  form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     btn.disabled = true;
     btn.textContent = "Gönderiliyor...";
-
     const data = {};
     new FormData(form).forEach((v, k) => data[k] = v);
-
     try {
       await fetch(SCRIPT_URL, {
         method: "POST",
@@ -245,6 +244,15 @@
       btn.textContent = "Anketi Gönder";
       alert("Gönderim sırasında bir hata oluştu. Lütfen tekrar deneyin.");
     }
+  });
+
+  document.getElementById('againBtn').addEventListener('click', () => {
+    form.reset();
+    form.style.display = "block";
+    document.getElementById('thanks').style.display = "none";
+    btn.disabled = false;
+    btn.textContent = "Anketi Gönder";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 </script>
 </body>
